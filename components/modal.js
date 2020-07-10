@@ -59,7 +59,7 @@ const Modal = (props) => {
           }}
           className="fixed z-0 top-0 right-0 bottom-0 left-0 bg-darkT"
         />
-        <div className="fixed z-10 w-11/12 lg:w-9/12 p-2 md:p-4 lg:p-6 flex flex-col lg:flex-row bg-light text-center">
+        <div className="fixed max-h-screen overflow-y-scroll z-10 w-11/12 lg:w-9/12 p-2 md:p-4 lg:p-6 flex flex-col lg:flex-row bg-light text-center">
           <div
             onClick={() => setDisplay(false)}
             className="absolute top-0 right-0 py-3 px-1 flex flex-col cursor-pointer"
@@ -68,20 +68,20 @@ const Modal = (props) => {
             <div className="w-py h-sm bg-dark origin-sm transform -rotate-45" />
           </div>
           <img
-            className="w-7/12 md:w-5/12 lg:w-1/2 mx-auto mb-2"
+            className="w-9/12 md:w-5/12 lg:w-1/2 mx-auto mb-2"
             src={details.url}
           />
           <div className="lg:w-1/2 mx-auto flex flex-col space-y-2 justify-center lg:justify-start lg:pr-8">
             <h1 className="text-2xl md:text-4xl lg:text-left font-bold">
               {details.title}
             </h1>
-            <p className="md:w-full mx-auto lg:text-left text-base">
+            <p className="md:w-full mx-auto text-dark text-left md:text-center lg:text-left text-base">
               {details.description}
             </p>
             <p className="text-base lg:text-left font-bold">
               Enter Measurements to get a price
             </p>
-            <div className="flex flex-col lg:flex-row w-11/12 md:w-full space-y-4 lg:space-y-0 lg:space-x-6">
+            <div className="flex flex-col mx-auto lg:flex-row w-11/12 md:w-full space-y-4 lg:space-y-0 lg:space-x-6">
               <div className="lg:w-1/2 mx-auto relative">
                 <input
                   value={width}
@@ -141,7 +141,7 @@ const Modal = (props) => {
             <button
               className={`${
                 price.display ? "" : "hidden"
-              } w-10/12 md:w-full mx-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
+              } w-10/12 md:w-7/12 lg:w-full mx-auto bg-blue-500 hover:bg-blue-700 text-light font-bold py-2 px-4 rounded`}
             >
               Add to Basket
             </button>

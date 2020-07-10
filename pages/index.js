@@ -17,7 +17,7 @@ const Index = ({ data }) => {
         alt="Blinds Direct"
       />
       <hr className="w-full mb-5" />
-      <h1 className="text-center text-base text-dark mb-5 mx-2">
+      <h1 className="text-center text-sm md:text-base text-dark mb-5 mx-2">
         {data.data.description}
       </h1>
       <hr className="w-full mb-5" />
@@ -28,6 +28,7 @@ const Index = ({ data }) => {
               setDisplay={setDisplay}
               setDetails={setDetails}
               url={item.images.main}
+              thumbUrl={item.images.thumb}
               title={item.name}
               description={item.description}
               width={item.limits.width}

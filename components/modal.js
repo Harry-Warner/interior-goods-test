@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import CheckIcon from "@material-ui/icons/Check";
 
 const Modal = (props) => {
@@ -7,12 +6,13 @@ const Modal = (props) => {
   const [width, setWidth] = useState(null);
   const [drop, setDrop] = useState(null);
   const [price, setPrice] = useState({});
-  const [widthError, setWidthError] = useState(false);
-  const [dropError, setDropError] = useState(false);
+  const [error, setError] = useState({ width: false, drop: false });
 
+  // listen to any changes to the width or drop input
   useEffect(() => {
-    let total = (width / 100) * (drop / 100) * details.ppm;
-    if (details.width && details.drop) {
+    // initiate conditionals only once modal is open
+    if (details.ppm) {
+      let total = (width / 100) * (drop / 100) * details.ppm;
       let cases = {
         wWithin:
           (width <= details.width.max && width >= details.width.min) || !width,
@@ -24,25 +24,21 @@ const Modal = (props) => {
           value: total.toFixed(2),
           display: !drop || !width ? false : true,
         });
-        setWidthError(false);
-        setDropError(false);
+        setError({ width: false, drop: false });
       } else if (cases.wWithin && !cases.dWithin) {
         setPrice({
           value: total.toFixed(2),
           display: false,
         });
-        setWidthError(false);
-        setDropError(true);
+        setError({ width: false, drop: true });
       } else if (!cases.wWithin && cases.dWithin) {
-        setWidthError(true);
-        setDropError(false);
+        setError({ width: true, drop: false });
         setPrice({
           value: total.toFixed(2),
           display: false,
         });
       } else {
-        setWidthError(true);
-        setDropError(true);
+        setError({ width: true, drop: true });
         setPrice({
           value: total.toFixed(2),
           display: false,
@@ -52,9 +48,10 @@ const Modal = (props) => {
   }, [width, drop]);
   return (
     <>
-      <StyledModal
-        display={display ? display : undefined}
-        className="fixed z-50 flex justify-center items-center top-0 right-0 bottom-0 left-0"
+      <div
+        className={`${
+          display ? "flex" : "hidden"
+        } fixed z-50 justify-center items-center top-0 right-0 bottom-0 left-0`}
       >
         <div
           onClick={() => {
@@ -97,14 +94,14 @@ const Modal = (props) => {
                 <CheckIcon
                   fontSize="large"
                   style={{
-                    display: `${!width || widthError ? "none" : "block"}`,
+                    display: `${!width || error.width ? "none" : "block"}`,
                   }}
                   className={`absolute right-0 top-0 text-green-500 m-xs`}
                 />
                 <p
                   className={`${
-                    widthError ? "" : "hidden"
-                  } text-red-500 text-sm italic`}
+                    error.width ? "" : "hidden"
+                  } mt-1 text-red-500 text-sm italic`}
                 >
                   limits: {details.width && details.width.min}cm -{" "}
                   {details.width && details.width.max}cm
@@ -122,14 +119,14 @@ const Modal = (props) => {
                 <CheckIcon
                   fontSize="large"
                   style={{
-                    display: `${!drop || dropError ? "none" : "block"}`,
+                    display: `${!drop || error.drop ? "none" : "block"}`,
                   }}
                   className={`absolute right-0 top-0 text-green-500 m-xs`}
                 />
                 <p
                   className={`${
-                    dropError ? "" : "hidden"
-                  } text-red-500 text-sm italic`}
+                    error.drop ? "" : "hidden"
+                  } mt-1 text-red-500 text-sm italic`}
                 >
                   limits: {details.drop && details.drop.min}cm to{" "}
                   {details.drop && details.drop.max}cm
@@ -150,13 +147,9 @@ const Modal = (props) => {
             </button>
           </div>
         </div>
-      </StyledModal>
+      </div>
     </>
   );
 };
-
-const StyledModal = styled.div`
-  display: ${({ display }) => (display ? "flex" : "none")};
-`;
 
 export default Modal;

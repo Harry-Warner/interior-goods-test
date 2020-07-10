@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Product from "../components/product";
+import Modal from "../components/modal";
 
 const Index = ({ data }) => {
-  console.log(data.data.products);
+  const [display, setDisplay] = useState(false);
+  const [details, setDetails] = useState({});
 
   const products = data.data.products;
-  const minPrice = (w, d, ppm) => {
-    let total = (w / 100) * (d / 100) * ppm;
-    return total.toFixed(2);
-  };
 
   return (
     <>
+      <Modal display={display} setDisplay={setDisplay} details={details} />
       <img
         className="w-10/12 lg:w-4/12 mx-auto mt-8 mb-5"
         src="./logo.svg"
@@ -26,13 +25,14 @@ const Index = ({ data }) => {
         {products.map((item) => (
           <div key={products.indexOf(item)}>
             <Product
+              setDisplay={setDisplay}
+              setDetails={setDetails}
               url={item.images.main}
               title={item.name}
-              price={minPrice(
-                item.limits.width.min,
-                item.limits.drop.min,
-                item.price_per_metre_squared
-              )}
+              description={item.description}
+              width={item.limits.width}
+              drop={item.limits.drop}
+              ppm={item.price_per_metre_squared}
             />
           </div>
         ))}

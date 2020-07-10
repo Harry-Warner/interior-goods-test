@@ -10,10 +10,10 @@ const Container = styled.div`
   }
   @media (min-width: 48rem) {
     max-width: 48rem;
-    padding-bottom: 20.875rem;
   }
   @media (min-width: 64rem) {
     max-width: 64rem;
+    padding-bottom: 4rem;
   }
 `;
 

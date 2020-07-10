@@ -8,5 +8,5 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: ["tailwindcss"],
+  // plugins: ["tailwindcss"],
 };

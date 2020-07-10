@@ -1,14 +1,19 @@
 import React from "react";
+import Product from "../components/product";
 
 const Index = ({ data }) => {
   console.log(data.data.products);
 
   const products = data.data.products;
+  const minPrice = (w, d, ppm) => {
+    let total = (w / 100) * (d / 100) * ppm;
+    return total.toFixed(2);
+  };
 
   return (
     <>
       <img
-        className="w-9/12 lg:w-4/12 mx-auto mt-8 mb-5"
+        className="w-10/12 lg:w-4/12 mx-auto mt-8 mb-5"
         src="./logo.svg"
         alt="Blinds Direct"
       />
@@ -17,9 +22,21 @@ const Index = ({ data }) => {
         {data.data.description}
       </h1>
       <hr className="w-full mb-5" />
-      {products.map((item) => (
-        <p key={products.indexOf(item)}>{item.name}</p>
-      ))}
+      <div className="w-full grid grid-cols-2 lg:grid-cols-4">
+        {products.map((item) => (
+          <div key={products.indexOf(item)}>
+            <Product
+              url={item.images.main}
+              title={item.name}
+              price={minPrice(
+                item.limits.width.min,
+                item.limits.drop.min,
+                item.price_per_metre_squared
+              )}
+            />
+          </div>
+        ))}
+      </div>
     </>
   );
 };
